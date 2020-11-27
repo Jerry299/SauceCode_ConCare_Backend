@@ -1,0 +1,29 @@
+{
+  "name": "saucecode_concare_backend",
+  "version": "1.0.0",
+  "description": "Backend API for concare",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jerry299/SauceCode_ConCare_Backend.git"
+  },
+  "author": "Team decoders",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jerry299/SauceCode_ConCare_Backend/issues"
+  },
+  "homepage": "https://github.com/Jerry299/SauceCode_ConCare_Backend#readme",
+  "devDependencies": {
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-node": "^4.1.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "prettier": "^2.2.0"
+  }
+}
