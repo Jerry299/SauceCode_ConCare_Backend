@@ -32,8 +32,7 @@ const doctorSchema = new mongoose.Schema({
     required: true,
   },
   dateJoined: {
-    type: Date,
-    default: Date.now,
+    type: String,
   },
 });
 
