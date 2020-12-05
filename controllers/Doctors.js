@@ -1,4 +1,8 @@
 const bcrypt = require("bcrypt");
+
+const jwt = require("jsonwebtoken");
+
+const { secretOrKey } = require("../config/config");
 const Doctors = require("../models/Doctors");
 
 const getDate = () => {
@@ -55,7 +59,7 @@ exports.doctorRegister = (req, res) => {
     .then((doctor) => {
       if (doctor) {
         return res.status(400).json({
-          error: "Doctor Already Exists",
+          error: "Doctor's Email Account Already Exists",
         });
       }
 
@@ -93,5 +97,68 @@ exports.doctorRegister = (req, res) => {
       });
     });
 };
+// const signToken = (userId) => {
+//   return jwt.sign(
+//     {
+//       iss: "decoder",
+//       sub: userId,
+//     },
+//     passportSecretOrKey,
+//     { expiresIn: "1 day" }
+//   );
+// };
 
-exports.doctorLogin = (req, res) => {};
+// exports.doctorLogin = (req, res) => {
+//   if (req.isAunthenticated()) {
+//     const { _id, email } = req.body;
+//     const token = signToken(_id);
+//     res.cookie("access_token", token, { httpOnly: true, sameSite: true });
+//     res.status(200).json({
+//       isAunthenticated: true,
+//       doctor: email,
+//     });
+//   }
+//   res.status(400).json({ error: "unable to login" });
+// };
+
+exports.doctorLogin = (req, res) => {
+  const { email, password } = req.body;
+  Doctors.findOne({ email })
+    .then((doctor) => {
+      if (!doctor) {
+        return res.status(401).json({
+          error: "Account with email doesn't exist",
+        });
+      }
+
+      bcrypt.compare(password, doctor.password).then((valid) => {
+        if (!valid) {
+          return res.status(401).json({
+            error: "Invalid Credentials",
+          });
+        }
+
+        const token = jwt.sign({ userId: doctor }, secretOrKey, {
+          expiresIn: "24h",
+        });
+
+        res
+          .status(200)
+          .json({
+            userId: doctor._id,
+            message: "Log in successful",
+            token,
+          })
+          .catch((err) => {
+            return res.status(500).json({
+              error: err,
+            });
+          });
+      });
+    })
+    .catch((err) => {
+      return res.status(500).json({
+        error: err,
+      });
+    });
+};
