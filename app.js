@@ -5,10 +5,14 @@ const app = express();
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 
+const dotenv = require("dotenv");
 const { database } = require("./config/config");
+
+dotenv.config();
 
 // import routes
 const doctorsRoutes = require("./routes/Doctors");
+const patientRoutes = require("./routes/Patients");
 
 // express middlewares
 app.use(helmet());
@@ -33,6 +37,10 @@ mongoose
 
 // endpoints
 app.use("/api/auth", doctorsRoutes);
-app.listen(5000, () => {
-  console.log("Server is running at PORT 5000");
+app.use("/api/auth", patientRoutes);
+
+// initiate port and app listen
+const port = process.env.PORT || 5000;
+app.listen(port, () => {
+  console.log(`Server is running at PORT ${port}`);
 });

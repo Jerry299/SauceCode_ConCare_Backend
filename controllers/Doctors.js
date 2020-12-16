@@ -4,11 +4,7 @@ const jwt = require("jsonwebtoken");
 
 const { secretOrKey } = require("../config/config");
 const Doctors = require("../models/Doctors");
-
-const getDate = () => {
-  const date = new Date();
-  return date;
-};
+const { getDate } = require("../middleware/utils");
 
 exports.doctorRegister = (req, res) => {
   // destructure request body first

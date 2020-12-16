@@ -5,8 +5,6 @@ const express = require("express");
 // const jwt = require("jsonwebtoken");
 // const passportConfig = require("../passport");
 
-const { passportSecretOrKey } = require("../config/config");
-
 const doctorRouter = express.Router();
 const doctorCtrl = require("../controllers/Doctors");
 
