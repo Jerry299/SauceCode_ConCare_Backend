@@ -113,18 +113,11 @@ exports.patientLogin = (req, res) => {
             expiresIn: "24h",
           });
 
-          return res
-            .status(200)
-            .json({
-              userId: patient._id,
-              message: "Log in successful",
-              token,
-            })
-            .catch((err) => {
-              return res.status(500).json({
-                error: err,
-              });
-            });
+          res.status(200).json({
+            userId: patient._id,
+            message: "Log in successful",
+            token,
+          });
         })
         .catch(() => {
           return res.status(404).json({

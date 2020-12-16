@@ -7,6 +7,6 @@ const patientCtrl = require("../controllers/Patients");
 
 //  register or sign up endpoint
 patientRouter.post("/patientRegister", patientCtrl.patientRegister);
-patientRouter.post("/patientRegister", patientCtrl.patientLogin);
+patientRouter.post("/patientLogin", patientCtrl.patientLogin);
 
 module.exports = patientRouter;
