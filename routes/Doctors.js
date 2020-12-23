@@ -11,5 +11,6 @@ const doctorCtrl = require("../controllers/Doctors");
 // register or sign up endpoint
 doctorRouter.post("/docSignup", doctorCtrl.doctorRegister);
 doctorRouter.post("/docLogin", doctorCtrl.doctorLogin);
+doctorRouter.put("/updateDoctor/:id", doctorCtrl.doctorUpdateProfile);
 
 module.exports = doctorRouter;

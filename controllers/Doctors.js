@@ -34,18 +34,18 @@ exports.doctorRegister = (req, res) => {
   }
   if (lastName === "" && !lastName) {
     return res.status(400).json({
-      error: "Invalid Name Format",
+      message: "Invalid Name Format",
     });
   }
   if (!passwordregex.test(password)) {
     return res.status(400).json({
-      error:
+      message:
         "Password should be 8 letters long and contain a Capital letter,number and special character",
     });
   }
   if (!emailRegex.test(email)) {
     return res.status(400).json({
-      error: "Invalid Email Format",
+      message: "Invalid Email Format",
     });
   }
   // simple validation ends
@@ -55,7 +55,8 @@ exports.doctorRegister = (req, res) => {
     .then((doctor) => {
       if (doctor) {
         return res.status(400).json({
-          error: "Doctor's Email Account Already Exists",
+          success: false,
+          message: "Doctor's Email Account Already Exists",
         });
       }
 
@@ -73,15 +74,16 @@ exports.doctorRegister = (req, res) => {
         });
         newDoctor
           .save()
-          .then((doc) => {
-            console.log(doc);
+          .then(() => {
             return res.status(201).json({
+              success: true,
               message: "Account Created Successfully",
             });
           })
           .catch(() => {
             return res.status(400).json({
-              error: "Account Not Created",
+              success: false,
+              message: "Account Not Created",
             });
           });
       });
@@ -89,7 +91,8 @@ exports.doctorRegister = (req, res) => {
     .catch((err) => {
       console.log("error", err);
       return res.status(400).json({
-        error: "Unable To Create Account, Try Again",
+        success: false,
+        message: "Unable To Create Account, Try Again",
       });
     });
 };
@@ -123,14 +126,16 @@ exports.doctorLogin = (req, res) => {
     .then((doctor) => {
       if (!doctor) {
         return res.status(401).json({
-          error: "Account with email doesn't exist",
+          success: false,
+          message: "Account with email doesn't exist",
         });
       }
 
       bcrypt.compare(password, doctor.password).then((valid) => {
         if (!valid) {
           return res.status(401).json({
-            error: "Invalid Credentials",
+            success: false,
+            message: "Invalid Credentials",
           });
         }
 
@@ -142,19 +147,86 @@ exports.doctorLogin = (req, res) => {
           .status(200)
           .json({
             userId: doctor._id,
+            success: true,
             message: "Log in successful",
             token,
           })
           .catch((err) => {
             return res.status(500).json({
-              error: err,
+              success: false,
+              message: err,
             });
           });
       });
     })
     .catch((err) => {
       return res.status(500).json({
-        error: err,
+        success: false,
+        message: err,
+      });
+    });
+};
+
+exports.doctorUpdateProfile = (req, res) => {
+  const { id } = req.params;
+  const {
+    firstName,
+    lastName,
+    email,
+
+    specialization,
+    unAvailableDays,
+    availableTime,
+    phone,
+    about,
+    services,
+  } = req.body;
+
+  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+  // do some basic validation
+  if (firstName === "" && !firstName) {
+    return res.status(400).json({
+      message: "Invalid Name Format,Cannot be empty",
+    });
+  }
+  if (lastName === "" && !lastName) {
+    return res.status(400).json({
+      message: "Invalid Name Format,Cannot be empty",
+    });
+  }
+
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({
+      message: "Invalid Email Format",
+    });
+  }
+  // simple validation ends
+
+  Doctors.findByIdAndUpdate(
+    id,
+    {
+      firstName,
+      lastName,
+      email,
+      specialization,
+      unAvailableDays,
+      availableTime,
+      phone,
+      about,
+      services,
+    },
+    { new: true }
+  )
+    .then(() => {
+      res.status(201).json({
+        success: true,
+        message: "Account has been updated succesfully",
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: err,
       });
     });
 };

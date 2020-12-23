@@ -13,6 +13,7 @@ dotenv.config();
 // import routes
 const doctorsRoutes = require("./routes/Doctors");
 const patientRoutes = require("./routes/Patients");
+const getAllDoctors = require("./routes/SeeAllDoctors");
 
 // express middlewares
 app.use(helmet());
@@ -26,6 +27,7 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
+    useFindAndModify: false,
   })
   .then(() => {
     console.log("Connected to mongoDB Atlas successful");
@@ -38,6 +40,7 @@ mongoose
 // endpoints
 app.use("/api/auth", doctorsRoutes);
 app.use("/api/auth", patientRoutes);
+app.use("/api", getAllDoctors);
 
 // initiate port and app listen
 const port = process.env.PORT || 5000;

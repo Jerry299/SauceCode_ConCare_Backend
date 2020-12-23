@@ -34,6 +34,15 @@ const doctorSchema = new mongoose.Schema({
   dateJoined: {
     type: String,
   },
+  phone: {
+    type: String,
+  },
+  about: {
+    type: String,
+  },
+  services: {
+    type: String,
+  },
 });
 
 module.exports = mongoose.model("Doctors", doctorSchema);
