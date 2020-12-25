@@ -20,6 +20,12 @@ const patientSchema = mongoose.Schema({
   dateJoined: {
     type: String,
   },
+  favouriteDoctors: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Doctors",
+    },
+  ],
 });
 
 module.exports = mongoose.model("Patients", patientSchema);

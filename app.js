@@ -14,6 +14,7 @@ dotenv.config();
 const doctorsRoutes = require("./routes/Doctors");
 const patientRoutes = require("./routes/Patients");
 const getAllDoctors = require("./routes/SeeAllDoctors");
+const favoriteDoctors = require("./routes/ChooseFavoriteDoctor");
 
 // express middlewares
 app.use(helmet());
@@ -41,6 +42,7 @@ mongoose
 app.use("/api/auth", doctorsRoutes);
 app.use("/api/auth", patientRoutes);
 app.use("/api", getAllDoctors);
+app.use("/api", favoriteDoctors);
 
 // initiate port and app listen
 const port = process.env.PORT || 5000;

@@ -218,13 +218,13 @@ exports.doctorUpdateProfile = (req, res) => {
     { new: true }
   )
     .then(() => {
-      res.status(201).json({
+      return res.status(201).json({
         success: true,
         message: "Account has been updated succesfully",
       });
     })
     .catch((err) => {
-      res.status(500).json({
+      return res.status(500).json({
         success: false,
         message: err,
       });
