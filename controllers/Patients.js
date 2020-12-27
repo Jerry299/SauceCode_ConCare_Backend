@@ -21,23 +21,27 @@ exports.patientRegister = (req, res) => {
   // do simple validations
   if (firstName === "" && !firstName) {
     return res.status(400).json({
-      error: "First Name can not be empty",
+      success: false,
+      message: "First Name can not be empty",
     });
   }
 
   if (lastName === "" && !lastName) {
     return res.status(400).json({
-      error: "Last Name cannot be empty and must be valid",
+      success: false,
+      message: "Last Name cannot be empty and must be valid",
     });
   }
   if (!emailRegex.test(email)) {
     return res.status(400).json({
-      error: "Invalid Email Format",
+      success: false,
+      message: "Invalid Email Format",
     });
   }
   if (!passwordregex.test(password)) {
     return res.status(400).json({
-      error: "Invalid Password Format",
+      success: false,
+      message: "Invalid Password Format",
     });
   }
 
@@ -46,7 +50,8 @@ exports.patientRegister = (req, res) => {
     .then((patient) => {
       if (patient) {
         return res.status(400).json({
-          error: "Email already exists!!",
+          success: false,
+          message: "Email already exists!!",
         });
       }
 
@@ -63,27 +68,30 @@ exports.patientRegister = (req, res) => {
           });
           newPatient
             .save()
-            .then((person) => {
-              console.log(person);
+            .then(() => {
               return res.status(200).json({
+                success: true,
                 message: "Account created successfully",
               });
             })
             .catch(() => {
               return res.status(400).json({
-                error: "Error while creating account,Please try again",
+                success: false,
+                message: "Error while creating account,Please try again",
               });
             });
         })
         .catch(() => {
           return res.status(400).json({
-            error: "Unable to create account,Please Try again",
+            success: false,
+            message: "Unable to create account,Please Try again",
           });
         });
     })
     .catch(() => {
       return res.status(500).json({
-        error: "Server Error, Try again",
+        success: false,
+        message: "Server Error, Try again",
       });
     });
 };

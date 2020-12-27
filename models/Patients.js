@@ -20,7 +20,13 @@ const patientSchema = mongoose.Schema({
   dateJoined: {
     type: String,
   },
-  favouriteDoctors: [
+  appointments: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Appointments",
+    },
+  ],
+  doctorForAppointment: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Doctors",
